@@ -96,10 +96,12 @@ main {
 .clear {
   fill: hsl(34, 39%, 20%, 15%);
   position: absolute;
-  right: 30px;
-  top: 70px;
   filter: drop-shadow(0px 0px 2px var(--delft-blue));
   display: none;
+  right: 30px;
+  top: 70px;
+  width: 24px; 
+  height: 24px;
 }
 
 /* --- Pick a picture button --- */
@@ -152,17 +154,6 @@ main {
   left: 2px;
 }
 
-
-/* 
-@media (min-width: 768px) {
-  .button-53 {
-    padding: .75rem 3rem;
-    font-size: 1.25rem;
-  }
-} */
-
-
-/* ------------------------------------------------------------------------- */
 /* --- Pie selector ---*/
 .pie {
     height: 350px;
@@ -210,7 +201,6 @@ main {
         pointer-events: none;
     }
 
-/* --- Dynamic Emotion segment/label classes --- */
 .unavailable-emotion-segment, .unavailable-emotion-segment:hover {
     filter: brightness(1); 
     background-color: #888 !important;
@@ -281,68 +271,66 @@ main {
     transform: rotate(-90deg) translate(-50px,-3.5px);     
 }
 
-/* --- End Dynamic Emotion segment/label classes --- */
-
-  .pie__segment:nth-of-type(1) {
-    animation-delay: 0.1s;
-    background: var(--united-nations-blue);
+.pie__segment:nth-of-type(1) {
+  animation-delay: 0.1s;
+  background: var(--united-nations-blue);
+}
+.pie__segment:nth-of-type(2) {
+  animation-delay: 0.2s;
+  background: var(--tan);
+}
+.pie__segment:nth-of-type(3) {
+  animation-delay: 0.3s;
+  background: var(--turquoise);
+}
+.pie__segment:nth-of-type(4) {
+  animation-delay: 0.4s;
+  background: var(--new-blue);
+}
+.pie__segment:nth-of-type(5) {
+  animation-delay: 0.5s;
+  background: var(--pink-lavender);
+}
+.pie__segment:nth-of-type(6) {
+  animation-delay: 0.1s;
+  background: var(--celadon);
+}
+.pie__segment:nth-of-type(7) {
+  animation-delay: 0.2s;
+  background: var(--tomato);
+}
+.pie__segment:nth-of-type(8) {
+  animation-delay: 0.3s;
+  background:var(--chinese-violet);
+}
+.pie__segment:nth-of-type(9) {
+  animation-delay: 0.4s;
+  background: var(--tea-green);
+}
+.pie__segment:nth-of-type(10) {
+  animation-delay: 0.5s;
+  background:var(--plum);
+}
+@-moz-keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  .pie__segment:nth-of-type(2) {
-    animation-delay: 0.2s;
-    background: var(--tan);
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  .pie__segment:nth-of-type(3) {
-    animation-delay: 0.3s;
-    background: var(--turquoise);
+}
+@-o-keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  .pie__segment:nth-of-type(4) {
-    animation-delay: 0.4s;
-    background: var(--new-blue);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  .pie__segment:nth-of-type(5) {
-    animation-delay: 0.5s;
-    background: var(--pink-lavender);
-  }
-  .pie__segment:nth-of-type(6) {
-    animation-delay: 0.1s;
-    background: var(--celadon);
-  }
-  .pie__segment:nth-of-type(7) {
-    animation-delay: 0.2s;
-    background: var(--tomato);
-  }
-  .pie__segment:nth-of-type(8) {
-    animation-delay: 0.3s;
-    background:var(--chinese-violet);
-  }
-  .pie__segment:nth-of-type(9) {
-    animation-delay: 0.4s;
-    background: var(--tea-green);
-  }
-  .pie__segment:nth-of-type(10) {
-    animation-delay: 0.5s;
-    background:var(--plum);
-  }
-  @-moz-keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-  }
-  @-webkit-keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-  }
-  @-o-keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-  }
+}
   
 /* --- Toggle --- */
 .toggle {
@@ -431,3 +419,84 @@ main {
     filter: brightness(10) opacity(.4) drop-shadow(0px 0px 3px black);
     cursor: pointer;
   }
+
+  /* --- Desktop version --- */
+@media (min-width: 768px) {
+  .btn-pick {
+    padding: .75rem 3rem;
+    font-size: 1.25rem;
+  }
+  header, .header-inner, main {
+    width: 555px
+  }
+  .nibbler-img{
+    width: 150px;
+  }
+  h1 {
+    font-size: 48px;
+    }
+
+  h2 {
+    font-size: 30px;
+  }
+  h3{
+    margin-top: 30px;
+    font-size: 33px;
+  }
+  .clear {
+    right: 50px;
+    top: 100px;
+    width: 36px;
+    height: 36px;
+  }
+  .pie {
+    height: 525px;
+    width: 525px;
+    margin: -60px 0 -30px 0;
+  }
+  .label-text {
+    transform: rotate(90deg) translate(82.5px,0px); 
+  }
+
+  .label-text-invert {
+      transform: rotate(-90deg) translate(-82.55px,0px); 
+  }
+  .selected-emotion-label {
+    text-shadow: 2.25px 2.25px 10px  hsl(34, 39%, 40%);   
+    font-size: 36 px;  
+  }
+  .label-text.selected-emotion-label {
+      transform: rotate(90deg) translate(75px,-3.25px);     
+  }
+  .label-text-invert.selected-emotion-label {
+      transform: rotate(-90deg) translate(-75px,-3.25px);     
+  }
+  .toggle-switch {
+    border-radius: 16.5px;
+    width: 58.5px;
+    height: 31.5px;
+  }
+  .toggle-switch:before {
+    width: 24px;
+    height: 24px;
+    top: 4px;
+    left: 4px;
+  }
+  .toggle-checkbox:checked + .toggle-switch:before {
+    left: 30px;
+  }
+  .toggle-label {
+    margin-left: 4.5px;
+    top: 2.25px;
+  }
+  .meme-container {
+    padding: 15px;
+  }
+  .meme-close {
+    top: 7.5px;
+    right: 7.5px;
+    width: 50px;
+    filter: brightness(10) opacity(.4) drop-shadow(0px 0px 5px black);
+  }
+
+}
