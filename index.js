@@ -150,8 +150,14 @@ async function producePicture() {
     const catsArray = getMatchingCatsArray()
     const selectedCat = catsArray[Math.floor(Math.random() * catsArray.length)]
     document.getElementById('meme-img').src = `/images/${selectedCat.image}`
-    memeContainerEl.style.display = "flex"   
+    memeContainerEl.style.display = "flex"  
+
+    // Play appropriate cat sound (randomly selected from the emotions of the cat meme displayed)
+    const catSound = new Audio(`/audio/cat-sounds/${selectedCat.emotionTags[Math.floor(Math.random() * selectedCat.emotionTags.length)]}.mp3`)
+    catSound.volume = 0.3
+    catSound.play() 
     
+    // Ensure that display is correct for 'wildcard-ed' choice
     if (wildcard) { updateUI() }
 }
 
