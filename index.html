@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="styles.css">
+        <title>Pie chart</title>
+    </head>
+    <body>
+        <header>
+            <div class="header-inner">
+                <img src="./images/nibbler.png" class="nibbler-img">
+                <div>
+                    <h2>Nibbler's Picture Purrfect</h2>
+                    <h1>Picture Picker</h1>
+                </div>
+            </div>
+        </header>
+        <main>
+            <h3>Pick one or more <span class="emeowtions">e-meow-tions</span></h3>
+            <!-- Start Main Pie Selector -->
+            <div class="pie" id="emotion-selector">
+                <div class="pie__segment" id="confused" style="--start: 0"></div>
+                <div class="pie__segment" id="dominant" style="--start: 36"></div>
+                <div class="pie__segment" id="happy" style="--start: 72"></div>
+                <div class="pie__segment" id="relaxed" style="--start: 108"></div>
+                <div class="pie__segment" id="hungry" style="--start: 144"></div>
+                <div class="pie__segment" id="scared" style="--start: 180"></div>
+                <div class="pie__segment" id="wildcard" style="--start: 216"></div>
+                <div class="pie__segment" id="moody" style="--start: 252"></div>
+                <div class="pie__segment" id="insomniac" style="--start: 288"></div>
+                <div class="pie__segment" id="sad" style="--start:  324"></div>        
+                <!-- The transforms of the labels seems to have shifted their position in relation to the start -->
+                <div class="pie__label" style="--start:  0"><p class="label-text" id="moody-label">moody</p></div>
+                <div class="pie__label" style="--start:  36"><p class="label-text" id="insomniac-label">insomniac</p></div>
+                <div class="pie__label" style="--start:  72"><p class="label-text" id="sad-label">sad</p></div>
+                <div class="pie__label" style="--start:  108"><p class="label-text" id="confused-label">confused</p></div>
+                <div class="pie__label" style="--start:  144"><p class="label-text-invert" id="dominant-label">dominant</p></div>
+                <div class="pie__label" style="--start:  180"><p class="label-text-invert" id="happy-label">happy</p></div>
+                <div class="pie__label" style="--start:  216"><p class="label-text-invert" id="relaxed-label">relaxed</p></div>
+                <div class="pie__label" style="--start:  252"><p class="label-text-invert" id="hungry-label">hungry</p></div>
+                <div class="pie__label" style="--start:  288"><p class="label-text-invert" id="scared-label">scared</p></div>
+                <div class="pie__label" style="--start:  324"><p class="label-text" id="wildcard-label">???</p></div>
+            </div>
+            <!-- End Pie Selector -->
+            <div class="options-container">
+                <label class="toggle">
+                    <input class="toggle-checkbox" type="checkbox">
+                    <div class="toggle-switch"></div>
+                    <span class="toggle-label">Animated GIFs only</span>
+                  </label>
+            </div>
+            <button id="btn-pick" class="btn-pick">Pick a picture</button>
+        </main>
+        <script src="index.js" type="module"></script>
+    </body>
+</html>
