@@ -137,7 +137,7 @@ async function producePicture() {
     if (targetObject.selected) {
         wildcard = true
         targetObject.selected = false // don't want 'wildcard' as emotion (should be only one chosen, so this cleans out selection)
-        targetObject = emotionSelections[Math.floor(Math.random() * 9) + 1]
+        targetObject = emotionSelections[Math.floor(Math.random() * 9)]
         drumroll.play()
         await wildcardAnimate(targetObject.emotion)
         const tada = new Audio('/audio/tada.mp3')
