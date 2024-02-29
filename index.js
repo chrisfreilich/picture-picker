@@ -18,9 +18,11 @@ const clearBtnEl = document.getElementById('clear')
 const emotionSelectorEl = document.getElementById('emotion-selector')
 const pickPictureBtnEl = document.getElementById('btn-pick')
 const memeContainerEl = document.getElementById('meme-container')
+let areGifsAvailable = true;
 
 clearBtnEl.addEventListener('click', clearSelections)
 emotionSelectorEl.addEventListener('click', handleSelectorClick)
+gifEl.addEventListener('click', handleGifClick)
 pickPictureBtnEl.addEventListener('click', producePicture)
 memeContainerEl.addEventListener('click', ()=>{ memeContainerEl.style.display = "none"})
 
@@ -45,16 +47,26 @@ function handleSelectorClick(event) {
     setEmotionSegmentStyles()
 }
 
+function handleGifClick(event) {
+    calculateAvailableEmotions()
+    setEmotionSegmentStyles()
+}
+
 function calculateAvailableEmotions() {
 
+    areGifsAvailable = false;
     for (const emotion of emotionSelections) {  emotion.available = false }
     
     // Any emotion we find in matchingCats should be available to select.
     let matchingCats = getMatchingCatsArray()
     for (const cat of matchingCats) {
-        for (const emotion of cat.emotionTags) {
-            emotionSelections.find(obj => obj.emotion === emotion).available = true
+        if ( !gifEl.checked || cat.isGif ) {
+            for (const emotion of cat.emotionTags) {
+                emotionSelections.find(obj => obj.emotion === emotion).available = true
+            }
         }
+        // if cat is a GIF, we should allow the GIFs checkbox
+        if (cat.isGif) { areGifsAvailable = true }
     }
 
     // Wildcard choice is only available if nothing has been selected
@@ -92,6 +104,14 @@ function setEmotionSegmentStyles() {
     // Set availability of other UI elements
     clearBtnEl.style.display = selectionMade || gifEl.checked ? "block" : "none"
     pickPictureBtnEl.disabled = !selectionMade
+    gifEl.disabled = !areGifsAvailable
+    
+    if(areGifsAvailable) {
+        document.getElementById("gif-label").classList.remove('gif-unavailable')
+    } else {
+        document.getElementById("gif-label").classList.add('gif-unavailable')
+    }
+
 }
 
 function getSelectedEmotions() {
@@ -103,7 +123,8 @@ function getSelectedEmotions() {
 }
 
 function getMatchingCatsArray() {
-    return catsData.filter(cat => getSelectedEmotions().every(emotion => cat.emotionTags.includes(emotion)))
+    const selectedEmotionCats = catsData.filter(cat => getSelectedEmotions().every(emotion => cat.emotionTags.includes(emotion)))
+    return selectedEmotionCats.filter(cat => !gifEl.checked | cat.isGif)
 }
 
 function producePicture() {

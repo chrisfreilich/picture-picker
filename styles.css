@@ -399,6 +399,11 @@ main {
     color: var(--delft-blue);
   }
 
+  .toggle-label.gif-unavailable {
+    color: #bbb !important;
+    filter: grayscale(100%) opacity(50%) !important;
+  }
+
   /* -- Modal Meme Window -- */
   .meme-container {
     display: none;
