@@ -17,10 +17,12 @@ const gifEl = document.getElementById('gif-only')
 const clearBtnEl = document.getElementById('clear')
 const emotionSelectorEl = document.getElementById('emotion-selector')
 const pickPictureBtnEl = document.getElementById('btn-pick')
+const memeContainerEl = document.getElementById('meme-container')
 
 clearBtnEl.addEventListener('click', clearSelections)
 emotionSelectorEl.addEventListener('click', handleSelectorClick)
 pickPictureBtnEl.addEventListener('click', producePicture)
+memeContainerEl.addEventListener('click', ()=>{ memeContainerEl.style.display = "none"})
 
 function clearSelections() {
     for (const emotion of emotionSelections) {  
@@ -87,8 +89,9 @@ function setEmotionSegmentStyles() {
         }
     }
 
+    // Set availability of other UI elements
     clearBtnEl.style.display = selectionMade || gifEl.checked ? "block" : "none"
-    
+    pickPictureBtnEl.disabled = !selectionMade
 }
 
 function getSelectedEmotions() {
@@ -106,5 +109,6 @@ function getMatchingCatsArray() {
 function producePicture() {
     const catsArray = getMatchingCatsArray()
     const selectedCat = catsArray[Math.floor(Math.random() * catsArray.length)]
-    
+    document.getElementById('meme-img').src = `/images/${selectedCat.image}`
+    memeContainerEl.style.display = "flex"    
 }

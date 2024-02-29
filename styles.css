@@ -1,6 +1,6 @@
 :root {
     --tan: #d0b695ff;
-    --light-tan: hsl(36, 38%, 85%);
+    --light-tan: #e7dcca;
     --dark-tan: hsl(34, 39%, 20%);
     --new-blue: hsl(234, 20%, 50%);
     --delft-blue: #3d405bff;
@@ -129,6 +129,10 @@ main {
   touch-action: manipulation;
 }
 
+.btn-pick:disabled {
+  background-color: #bbb;
+}
+
 .btn-pick:focus {
   outline: 0;
 }
@@ -181,6 +185,7 @@ main {
 
   .pie__segment:hover {
     filter:brightness(0.7);
+    cursor: pointer;
   }
   
   .pie__label {
@@ -392,4 +397,32 @@ main {
     top: 1.5px;
     font-weight: bold;
     color: var(--delft-blue);
+  }
+
+  /* -- Modal Meme Window -- */
+  .meme-container {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100%;
+    padding: 10px;
+    background-color: #47361fdd;
+  }
+  .meme-image {
+    width: 100%;
+    max-height: 100%;
+  }
+  .meme-close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 40px;
+    filter: brightness(10) opacity(.3) drop-shadow(0px 0px 2px var(--dark-tan));
+    cursor: pointer;
   }
