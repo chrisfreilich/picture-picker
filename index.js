@@ -127,9 +127,51 @@ function getMatchingCatsArray() {
     return selectedEmotionCats.filter(cat => !gifEl.checked | cat.isGif)
 }
 
-function producePicture() {
+async function producePicture() {
+
+    let wildcard = false
+
+    // If user selected wildcard, choose random emotion and do animation
+    let targetObject = emotionSelections.find(obj => obj.emotion === 'wildcard')
+    if (targetObject.selected) {
+        wildcard = true
+        targetObject.selected = false // don't want 'wildcard' as emotion (should be only one chosen, so this cleans out selection)
+        targetObject = emotionSelections[Math.floor(Math.random() * 9) + 1]
+        await wildcardAnimate(targetObject.emotion)
+        targetObject.selected = true
+    }
+
     const catsArray = getMatchingCatsArray()
     const selectedCat = catsArray[Math.floor(Math.random() * catsArray.length)]
     document.getElementById('meme-img').src = `/images/${selectedCat.image}`
-    memeContainerEl.style.display = "flex"    
+    memeContainerEl.style.display = "flex"   
+    
+    clearSelections()
+}
+
+function wildcardAnimate(emotion) {
+    let animateInterval = 500;
+    let nextAnimate = animateInterval
+    let animateEl
+    let finalPromise
+
+    for (let i = 0; i < 9; i++) {
+        setTimeout(() => {
+            animateEl = document.getElementById(emotionSelections[i].emotion)
+            animateEl.classList.add('selected-emotion-segment')
+        }, nextAnimate)
+        
+        finalPromise = new Promise( (resolve) => {
+            setTimeout(() => {
+                animateEl = document.getElementById(emotionSelections[i].emotion)
+                animateEl.classList.remove('selected-emotion-segment')
+                resolve()
+            }, nextAnimate + (animateInterval*3))
+        })
+
+        nextAnimate += animateInterval
+        if(emotionSelections[i].emotion === emotion) { break }
+    }
+
+    return finalPromise
 }
