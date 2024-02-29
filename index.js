@@ -13,20 +13,23 @@ let emotionSelections = [
     {  emotion: "wildcard",  selected: false,  available: true }
 ]
 
-// Get all the emotion segments
-// const confusedEl = document.getElementById('confused')
-// const dominantEl = document.getElementById('dominant')
-// const happyEl = document.getElementById('happy')
-// const relaxedEl = document.getElementById('relaxed')
-// const hungryEl = document.getElementById('hungry')
-// const scaredEl = document.getElementById('scared')
-// const wildcardEl = document.getElementById('wildcard')
-// const moodyEl = document.getElementById('moody')
-// const insomniacEl = document.getElementById('insomniac')
-// const sadEl = document.getElementById('sad')
+const gifEl = document.getElementById('gif-only')
+const clearBtnEl = document.getElementById('clear')
+const emotionSelectorEl = document.getElementById('emotion-selector')
+const pickPictureBtnEl = document.getElementById('btn-pick')
 
-// Emotion selector pie element handles all clicks for the segments
-document.getElementById('emotion-selector').addEventListener('click', handleSelectorClick)
+clearBtnEl.addEventListener('click', clearSelections)
+emotionSelectorEl.addEventListener('click', handleSelectorClick)
+pickPictureBtnEl.addEventListener('click', producePicture)
+
+function clearSelections() {
+    for (const emotion of emotionSelections) {  
+        emotion.available = true 
+        emotion.selected = false
+    } 
+    gifEl.checked = false
+    setEmotionSegmentStyles()
+}
 
 function handleSelectorClick(event) {
     const targetEmotion = event.target.id
@@ -40,36 +43,28 @@ function handleSelectorClick(event) {
     setEmotionSegmentStyles()
 }
 
-
 function calculateAvailableEmotions() {
+
+    for (const emotion of emotionSelections) {  emotion.available = false }
     
-    // If this function has been called, the emotion selection has changed,
-    // so available other emotions are no longer valid. First clear out the
-    // available list and find all the selected emotions.
-    let selections = []
-    for (const emotion of emotionSelections) {  
-        emotion.available = false 
-        if (emotion.selected) { selections.push(emotion.emotion) }
-    }
-
-    // Create a new array of cat memes whose emotionTags contain all of the selected emotions
-    const matchingCats = catsData.filter(cat => selections.every(emotion => cat.emotionTags.includes(emotion)))
-
     // Any emotion we find in matchingCats should be available to select.
+    let matchingCats = getMatchingCatsArray()
     for (const cat of matchingCats) {
         for (const emotion of cat.emotionTags) {
             emotionSelections.find(obj => obj.emotion === emotion).available = true
         }
     }
 
-    // Wildcard is only available if nothing has been selected
-    if (selections.length === 0) {
+    // Wildcard choice is only available if nothing has been selected
+    if (getSelectedEmotions().length === 0 && !gifEl.checked) {
         emotionSelections.find(obj => obj.emotion === 'wildcard').available = true
     }
-
 }
 
 function setEmotionSegmentStyles() {
+
+    let selectionMade = false
+
     for (const emotion of emotionSelections) {
         
         const emotionEl = document.getElementById(emotion.emotion)
@@ -85,9 +80,31 @@ function setEmotionSegmentStyles() {
         if (emotion.selected) { 
             emotionEl.classList.add("selected-emotion-segment") 
             emotionLabelEl.classList.add("selected-emotion-label")
+            selectionMade = true
         } else if (!emotion.available) {
             emotionEl.classList.add("unavailable-emotion-segment")
             emotionLabelEl.classList.add("unavailable-emotion-label")
         }
     }
+
+    clearBtnEl.style.display = selectionMade || gifEl.checked ? "block" : "none"
+    
+}
+
+function getSelectedEmotions() {
+    let selections = []
+    for (const emotion of emotionSelections) {  
+        if (emotion.selected) { selections.push(emotion.emotion) }
+    }
+    return selections
+}
+
+function getMatchingCatsArray() {
+    return catsData.filter(cat => getSelectedEmotions().every(emotion => cat.emotionTags.includes(emotion)))
+}
+
+function producePicture() {
+    const catsArray = getMatchingCatsArray()
+    const selectedCat = catsArray[Math.floor(Math.random() * catsArray.length)]
+    
 }
