@@ -3,8 +3,8 @@ import { catsData } from "./data.js"
 let emotionSelections = [
     {  emotion: "moody",     selected: false,  available: true },
     {  emotion: "insomniac", selected: false,  available: true },
-    {  emotion: "confused",  selected: false,  available: true },
     {  emotion: "sad",       selected: false,  available: true },
+    {  emotion: "confused",  selected: false,  available: true },
     {  emotion: "dominant",  selected: false,  available: true },
     {  emotion: "happy",     selected: false,  available: true },
     {  emotion: "relaxed",   selected: false,  available: true },
@@ -19,10 +19,12 @@ const emotionSelectorEl = document.getElementById('emotion-selector')
 const pickPictureBtnEl = document.getElementById('btn-pick')
 const memeContainerEl = document.getElementById('meme-container')
 let areGifsAvailable = true;
+const drumroll = new Audio('/audio/drumroll.mp3')
+drumroll.volume = 0.5
 
 clearBtnEl.addEventListener('click', clearSelections)
 emotionSelectorEl.addEventListener('click', handleSelectorClick)
-gifEl.addEventListener('click', handleGifClick)
+gifEl.addEventListener('click', updateUI)
 pickPictureBtnEl.addEventListener('click', producePicture)
 memeContainerEl.addEventListener('click', ()=>{ memeContainerEl.style.display = "none"})
 
@@ -43,11 +45,10 @@ function handleSelectorClick(event) {
     } else if (targetObject.available) {
         targetObject.selected = true
     }
-    calculateAvailableEmotions()
-    setEmotionSegmentStyles()
+    updateUI()
 }
 
-function handleGifClick(event) {
+function updateUI() {
     calculateAvailableEmotions()
     setEmotionSegmentStyles()
 }
@@ -137,7 +138,12 @@ async function producePicture() {
         wildcard = true
         targetObject.selected = false // don't want 'wildcard' as emotion (should be only one chosen, so this cleans out selection)
         targetObject = emotionSelections[Math.floor(Math.random() * 9) + 1]
+        drumroll.play()
         await wildcardAnimate(targetObject.emotion)
+        const tada = new Audio('/audio/tada.mp3')
+        tada.volume = 0.5
+        drumroll.pause()
+        tada.play()
         targetObject.selected = true
     }
 
@@ -146,7 +152,7 @@ async function producePicture() {
     document.getElementById('meme-img').src = `/images/${selectedCat.image}`
     memeContainerEl.style.display = "flex"   
     
-    clearSelections()
+    if (wildcard) { updateUI() }
 }
 
 function wildcardAnimate(emotion) {
