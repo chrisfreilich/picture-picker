@@ -1,16 +1,16 @@
 import { catsData } from "./data.js"
 
 let emotionSelections = [
-    {  emotion: "moody",     selected: false,  available: true },
-    {  emotion: "insomniac", selected: false,  available: true },
-    {  emotion: "sad",       selected: false,  available: true },
-    {  emotion: "confused",  selected: false,  available: true },
-    {  emotion: "dominant",  selected: false,  available: true },
-    {  emotion: "happy",     selected: false,  available: true },
-    {  emotion: "relaxed",   selected: false,  available: true },
-    {  emotion: "hungry",    selected: false,  available: true },
-    {  emotion: "scared",    selected: false,  available: true },
-    {  emotion: "wildcard",  selected: false,  available: true }
+    { emotion: "moody", selected: false, available: true },
+    { emotion: "insomniac", selected: false, available: true },
+    { emotion: "sad", selected: false, available: true },
+    { emotion: "confused", selected: false, available: true },
+    { emotion: "dominant", selected: false, available: true },
+    { emotion: "happy", selected: false, available: true },
+    { emotion: "relaxed", selected: false, available: true },
+    { emotion: "hungry", selected: false, available: true },
+    { emotion: "scared", selected: false, available: true },
+    { emotion: "wildcard", selected: false, available: true }
 ]
 
 const gifEl = document.getElementById('gif-only')
@@ -26,13 +26,13 @@ clearBtnEl.addEventListener('click', clearSelections)
 emotionSelectorEl.addEventListener('click', handleSelectorClick)
 gifEl.addEventListener('click', updateUI)
 pickPictureBtnEl.addEventListener('click', producePicture)
-memeContainerEl.addEventListener('click', ()=>{ memeContainerEl.style.display = "none"})
+memeContainerEl.addEventListener('click', () => { memeContainerEl.style.display = "none" })
 
 function clearSelections() {
-    for (const emotion of emotionSelections) {  
-        emotion.available = true 
+    for (const emotion of emotionSelections) {
+        emotion.available = true
         emotion.selected = false
-    } 
+    }
     gifEl.checked = false
     setEmotionSegmentStyles()
 }
@@ -56,12 +56,12 @@ function updateUI() {
 function calculateAvailableEmotions() {
 
     areGifsAvailable = false;
-    for (const emotion of emotionSelections) {  emotion.available = false }
-    
+    for (const emotion of emotionSelections) { emotion.available = false }
+
     // Any emotion we find in matchingCats should be available to select.
     let matchingCats = getMatchingCatsArray()
     for (const cat of matchingCats) {
-        if ( !gifEl.checked || cat.isGif ) {
+        if (!gifEl.checked || cat.isGif) {
             for (const emotion of cat.emotionTags) {
                 emotionSelections.find(obj => obj.emotion === emotion).available = true
             }
@@ -81,10 +81,10 @@ function setEmotionSegmentStyles() {
     let selectionMade = false
 
     for (const emotion of emotionSelections) {
-        
+
         const emotionEl = document.getElementById(emotion.emotion)
         const emotionLabelEl = document.getElementById(`${emotion.emotion}-label`)
-        
+
         emotionEl.classList = "pie__segment"
         if (emotionLabelEl.classList.contains('label-text-invert')) {
             emotionLabelEl.classList = 'label-text-invert'
@@ -92,8 +92,8 @@ function setEmotionSegmentStyles() {
             emotionLabelEl.classList = 'label-text'
         }
 
-        if (emotion.selected) { 
-            emotionEl.classList.add("selected-emotion-segment") 
+        if (emotion.selected) {
+            emotionEl.classList.add("selected-emotion-segment")
             emotionLabelEl.classList.add("selected-emotion-label")
             selectionMade = true
         } else if (!emotion.available) {
@@ -106,8 +106,8 @@ function setEmotionSegmentStyles() {
     clearBtnEl.style.display = selectionMade || gifEl.checked ? "block" : "none"
     pickPictureBtnEl.disabled = !selectionMade
     gifEl.disabled = !areGifsAvailable
-    
-    if(areGifsAvailable) {
+
+    if (areGifsAvailable) {
         document.getElementById("gif-label").classList.remove('gif-unavailable')
     } else {
         document.getElementById("gif-label").classList.add('gif-unavailable')
@@ -117,7 +117,7 @@ function setEmotionSegmentStyles() {
 
 function getSelectedEmotions() {
     let selections = []
-    for (const emotion of emotionSelections) {  
+    for (const emotion of emotionSelections) {
         if (emotion.selected) { selections.push(emotion.emotion) }
     }
     return selections
@@ -150,13 +150,13 @@ async function producePicture() {
     const catsArray = getMatchingCatsArray()
     const selectedCat = catsArray[Math.floor(Math.random() * catsArray.length)]
     document.getElementById('meme-img').src = `/images/${selectedCat.image}`
-    memeContainerEl.style.display = "flex"  
+    memeContainerEl.style.display = "flex"
 
     // Play appropriate cat sound (randomly selected from the emotions of the cat meme displayed)
     const catSound = new Audio(`/audio/cat-sounds/${selectedCat.emotionTags[Math.floor(Math.random() * selectedCat.emotionTags.length)]}.mp3`)
     catSound.volume = 0.3
-    catSound.play() 
-    
+    catSound.play()
+
     // Ensure that display is correct for 'wildcard-ed' choice
     if (wildcard) { updateUI() }
 }
@@ -172,17 +172,17 @@ function wildcardAnimate(emotion) {
             animateEl = document.getElementById(emotionSelections[i].emotion)
             animateEl.classList.add('selected-emotion-segment')
         }, nextAnimate)
-        
-        finalPromise = new Promise( (resolve) => {
+
+        finalPromise = new Promise((resolve) => {
             setTimeout(() => {
                 animateEl = document.getElementById(emotionSelections[i].emotion)
                 animateEl.classList.remove('selected-emotion-segment')
                 resolve()
-            }, nextAnimate + (animateInterval*3))
+            }, nextAnimate + (animateInterval * 3))
         })
 
         nextAnimate += animateInterval
-        if(emotionSelections[i].emotion === emotion) { break }
+        if (emotionSelections[i].emotion === emotion) { break }
     }
 
     return finalPromise
